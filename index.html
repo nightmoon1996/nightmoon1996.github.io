@@ -230,31 +230,35 @@
       <select id="item" name="item"></select>
 
       <script type="text/javascript">
-        fetch(
-          "https://raw.githubusercontent.com/nightmoon1996/nightmoon1996.github.io/main/item.txt"
-        )
-          .then((response) => response.text())
-          .then((text) => {
-            const items = text.split("\n").map((line) => {
-              const name = line.trim();
-              return { id: name, name };
-            });
-
-            const select = $("#item");
-
-            items.forEach((item) => {
-              const option = new Option(item.name, item.id);
-              select.append(option);
-            });
-
-            select.select2({
-              placeholder: "--Choose an Item--",
-              allowClear: true,
-              minimumInputLength: 2,
-              maximumSelectionLength: 5,
-              data: items.map((item) => ({ text: item.name })),
-            });
+        $.ajax({
+          url: "https://raw.githubusercontent.com/nightmoon1996/nightmoon1996.github.io/main/item.txt",
+          cache: true,
+          success: function (text) {
+          const items = text.split("\n").map((line) => {
+          const name = line.trim();
+          return { id: name, name };
           });
+          
+          const select = $("#item");
+          
+          items.forEach((item) => {
+          const option = new Option(item.name, item.id);
+          select.append(option);
+          });
+          
+          select.select2({
+          placeholder: "--Choose an Item--",
+          allowClear: true,
+          minimumInputLength: 3,
+          maximumSelectionLength: 3,
+          data: items.map((item) => ({ text: item.name })),
+          });
+          },
+          error: function () {
+          alert("Error loading data.");
+          },
+         });         
+         
       </script>
 
       <br />
@@ -359,7 +363,7 @@
       <h3>Version 0.1</h3>
       This website is not affiliated with Sandbox Interactive GmbH or Albion
         Online.
-        The MIT License (MIT) Copyright (c) 2023 KanameS</copyright>
+        The MIT License (MIT) Copyright (c) 2023 KanameS
     </div>
     </div>
   </body>
