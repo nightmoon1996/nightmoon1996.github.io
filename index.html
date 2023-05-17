@@ -28,56 +28,214 @@
       .dropdown-content a:hover {
         background-color: #f1f1f1;
       }
+
+      .selected {
+        background-color: yellow;
+      }
+
+      /* New CSS */
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+      }
+
+      form {
+        background-color: white;
+        border-radius: 5px;
+        padding: 20px;
+        width: 50%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 50px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      label {
+        display: block;
+        margin-bottom: 10px;
+        font-weight: bold;
+      }
+
+      select {
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+        border: none;
+        margin-bottom: 20px;
+        box-shadow: inset 0px -2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      button[type="button"] {
+        background-color: #4caf50; /* Green */
+        border-radius: 5px;
+        color: white;
+        padding: 10px 20px;
+        border-style: none;
+
+        cursor: pointer;
+
+        transition-duration: 0.3s;
+
+        box-shadow: none;
+
+        font-size: 0.9em;
+
+        margin-top: 0.5em;
+
+        text-align: center;
+
+        text-transform: none;
+
+        text-shadow: none;
+
+        width: auto;
+
+        display: inline-block;
+
+        letter-spacing: normal;
+
+        word-spacing: normal;
+
+        line-height: normal;
+
+        text-indent: 0;
+
+        text-decoration: none;
+
+        vertical-align: center;
+
+        white-space: normal;
+      }
+
+      button[type="button"]:hover {
+        background-color: #3e8e41; /* Dark Green */
+
+        box-shadow: none;
+
+        color: white;
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      th {
+        background-color: #4caf50;
+        color: white;
+        text-align: left;
+        padding: 8px;
+      }
+
+      td {
+        border-bottom: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+
+      tr:hover {
+        background-color: #f5f5f5;
+      }
     </style>
   </head>
   <body>
-    <h1>Albion Online Data API Example</h1>
-    <div class="dropdown">
-      <button class="dropbtn">Select an item:</button>
-      <div class="dropdown-content">
-        <a href="#" onclick="getData('T4_BAG')">T4 Bag</a>
-        <a href="#" onclick="getData('T5_BAG')">T5 Bag</a>
-        <a href="#" onclick="getData('T6_BAG')">T6 Bag</a>
-      </div>
-    </div>
+    <h1>Albion Online Market Data Made by RAISALA Guild</h1>
 
-    <div class="dropdown">
-      <button class="dropbtn">Select a location:</button>
-      <div class="dropdown-content">
-        <a href="#" onclick="getData(item, 'Caerleon')">Caerleon</a>
-        <a href="#" onclick="getData(item, 'Bridgewatch')">Bridgewatch</a>
-        <a href="#" onclick="getData(item, 'Martlock')">Martlock</a>
-      </div>
-    </div>
+    <form>
+      <label for="item">Item:</label>
+      <select id="item" name="item">
+        <option value="">--Please choose an item--</option>
+        <option value="T4_BAG">T4 Bag</option>
+        <option value="T5_BAG">T5 Bag</option>
+        <option value="T6_BAG">T6 Bag</option>
+      </select>
 
-    <button onclick="getData()">Get Data</button>
+      <br />
 
-    <div id="data"></div>
+      <label for="location">Location:</label>
+      <select id="location" name="location">
+        <option value="">--Please choose a location--</option>
+        <option value="Caerleon">Caerleon</option>
+        <option value="Bridgewatch">Bridgewatch</option>
+        <option value="Martlock">Martlock</option>
+      </select>
+
+      <br />
+
+      <button type="button" onclick="validateForm()">Get Data</button>
+    </form>
+    <table id="myTable">
+      <tr>
+        <th>Item ID</th>
+        <th>City</th>
+        <th>Quality</th>
+        <th>Sell Price Min</th>
+        <th>Sell Price Min Date</th>
+        <th>Sell Price Max</th>
+        <th>Sell Price Max Date</th>
+        <th>Buy Price Min</th>
+        <th>Buy Price Min Date</th>
+        <th>Buy Price Max</th>
+        <th>Buy Price Max Date</th>
+      </tr>
+
+      <tr id="myRow">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+
+      <!-- Add more rows here if needed -->
+    </table>
 
     <script>
-      let item = 'T4_BAG';
-      let location = 'Caerleon';
+      function validateForm() {
+        var item = document.getElementById("item").value;
+        var location = document.getElementById("location").value;
 
-      function getData(selectedItem = item, selectedLocation = location) {
-        item = selectedItem;
-        location = selectedLocation;
+        if (item == "" || location == "") {
+          alert("Please select an item and a location.");
+          return false;
+        } else {
+          getData(item, location);
+        }
+      }
 
-        const itemText = document.getElementById('selected-item');
-        itemText.innerHTML = `Selected Item: ${item}`;
+      function getData(item, location) {
+        console.log(`Getting data for item ${item} at location ${location}`);
 
-        const locationText = document.getElementById('selected-location');
-        locationText.innerHTML = `Selected Location: ${location}`;
+        fetch(
+          `https://east.albion-online-data.com/api/v2/stats/Prices/${item}?locations=${location}`
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            // Get the table row element
+            const row = document.getElementById("myRow");
 
-        fetch(`https://www.albion-online-data.com/api/v2/stats/Prices/${item}?locations=${location}`)
-          .then(response => response.json())
-          .then(data => {
-            const container = document.getElementById('data');
-            container.innerHTML = JSON.stringify(data);
-          });
+            // Update the table data with the fetched data
+            row.cells[0].innerHTML = data[0].item_id;
+            row.cells[1].innerHTML = data[0].city;
+            row.cells[2].innerHTML = data[0].quality;
+            row.cells[3].innerHTML = data[0].sell_price_min;
+            row.cells[4].innerHTML = data[0].sell_price_min_date;
+            row.cells[5].innerHTML = data[0].sell_price_max;
+            row.cells[6].innerHTML = data[0].sell_price_max_date;
+            row.cells[7].innerHTML = data[0].buy_price_min;
+            row.cells[8].innerHTML = data[0].buy_price_min_date;
+            row.cells[9].innerHTML = data[0].buy_price_max;
+            row.cells[10].innerHTML = data[0].buy_price_max_date;
+          })
+          .catch((error) => console.error(error));
       }
     </script>
-
-    <p id="selected-item"></p>
 
     <p id="selected-location"></p>
   </body>
