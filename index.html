@@ -42,8 +42,8 @@
       form {
         background-color: white;
         border-radius: 5px;
-        padding: 20px;
-        width: 50%;
+        padding: 50px;
+        width: 25%;
         margin-left: auto;
         margin-right: auto;
         margin-top: 50px;
@@ -61,8 +61,18 @@
         padding: 10px;
         border-radius: 5px;
         border: none;
-        margin-bottom: 20px;
         box-shadow: inset 0px -2px 5px rgba(0, 0, 0, 0.1);
+        background-image: linear-gradient(to bottom, #ffffff, #ffffff),
+          linear-gradient(to bottom, #ffffff, #ffffff);
+        background-position: calc(100% -20px) center, calc(100% -10px) center;
+        background-size: 10px auto, 10px auto;
+        background-repeat: no-repeat;
+      }
+      select:focus {
+        outline: none;
+      }
+      option {
+        font-weight: normal;
       }
 
       button[type="button"] {
@@ -117,7 +127,38 @@
 
       table {
         border-collapse: collapse;
-        width: 100%;
+        width: 50%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 50px;
+
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+
+        background-color: white;
+
+        border-radius: 5px;
+
+        padding: 50px;
+
+        text-align: center;
+
+        font-size: 0.9em;
+
+        font-family: Arial, sans-serif;
+
+        font-weight: bold;
+
+        letter-spacing: normal;
+
+        word-spacing: normal;
+
+        line-height: normal;
+
+        text-indent: 0;
+
+        text-decoration: none;
+
+        vertical-align: center;
       }
 
       th {
@@ -136,19 +177,53 @@
       tr:hover {
         background-color: #f5f5f5;
       }
+
+      .select2-container {
+        width: 100% !important;
+      }
     </style>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
   </head>
   <body>
     <h1>Albion Online Market Data Made by RAISALA Guild</h1>
 
     <form>
       <label for="item">Item:</label>
-      <select id="item" name="item">
-        <option value="">--Please choose an item--</option>
-        <option value="T4_BAG">T4 Bag</option>
-        <option value="T5_BAG">T5 Bag</option>
-        <option value="T6_BAG">T6 Bag</option>
-      </select>
+      <select id="item" name="item"></select>
+
+      <script type="text/javascript">
+        fetch(
+          "https://raw.githubusercontent.com/nightmoon1996/nightmoon1996.github.io/main/item.txt"
+        )
+          .then((response) => response.text())
+          .then((text) => {
+            const items = text.split("\n").map((line) => {
+              const [id, name] = line.split(",");
+              return { id, name };
+            });
+
+            const select = $("#item");
+
+            items.forEach((item) => {
+              const option = new Option(item.name, item.id);
+              select.append(option);
+            });
+
+            select.select2({
+              placeholder: "--Choose an Item--",
+              allowClear: true,
+              minimumInputLength: 2,
+              maximumSelectionLength: 5,
+              data: items.map((item) => ({ id: item.id, text: item.name })),
+            });
+          });
+      </script>
 
       <br />
 
