@@ -2,18 +2,83 @@
 <html>
   <head>
     <title>Albion Online Data API Example</title>
+    <style>
+      .dropdown {
+        position: relative;
+        display: inline-block;
+      }
+
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        z-index: 1;
+      }
+
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+
+      .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+      }
+
+      .dropdown-content a:hover {
+        background-color: #f1f1f1;
+      }
+    </style>
   </head>
   <body>
     <h1>Albion Online Data API Example</h1>
+    <div class="dropdown">
+      <button class="dropbtn">Select an item:</button>
+      <div class="dropdown-content">
+        <a href="#" onclick="getData('T4_BAG')">T4 Bag</a>
+        <a href="#" onclick="getData('T5_BAG')">T5 Bag</a>
+        <a href="#" onclick="getData('T6_BAG')">T6 Bag</a>
+      </div>
+    </div>
+
+    <div class="dropdown">
+      <button class="dropbtn">Select a location:</button>
+      <div class="dropdown-content">
+        <a href="#" onclick="getData(item, 'Caerleon')">Caerleon</a>
+        <a href="#" onclick="getData(item, 'Bridgewatch')">Bridgewatch</a>
+        <a href="#" onclick="getData(item, 'Martlock')">Martlock</a>
+      </div>
+    </div>
+
+    <button onclick="getData()">Get Data</button>
+
     <div id="data"></div>
 
     <script>
-      fetch('https://east.albion-online-data.com/api/v2/stats/Prices/T4_BAG,T5_BAG,T6_BAG')
-        .then(response => response.json())
-        .then(data => {
-          const container = document.getElementById('data');
-          container.innerHTML = JSON.stringify(data);
-        });
+      let item = 'T4_BAG';
+      let location = 'Caerleon';
+
+      function getData(selectedItem = item, selectedLocation = location) {
+        item = selectedItem;
+        location = selectedLocation;
+
+        const itemText = document.getElementById('selected-item');
+        itemText.innerHTML = `Selected Item: ${item}`;
+
+        const locationText = document.getElementById('selected-location');
+        locationText.innerHTML = `Selected Location: ${location}`;
+
+        fetch(`https://www.albion-online-data.com/api/v2/stats/Prices/${item}?locations=${location}`)
+          .then(response => response.json())
+          .then(data => {
+            const container = document.getElementById('data');
+            container.innerHTML = JSON.stringify(data);
+          });
+      }
     </script>
+
+    <p id="selected-item"></p>
+
+    <p id="selected-location"></p>
   </body>
 </html>
