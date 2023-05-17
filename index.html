@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Prompt"
+    />
     <title>Albion Online Data</title>
     <style>
-
       /* New CSS */
       body {
-        font-family: Arial, sans-serif;
+        font-family: "Prompt", sans-serif;
         background-color: #f2f2f2;
       }
 
       form {
+        font-family: "Prompt" sans-serif;
         background-color: white;
         border-radius: 5px;
         padding: 50px;
@@ -115,9 +119,9 @@
 
         font-size: 0.9em;
 
-        font-family: Arial, sans-serif;
+        font-family: "Prompt", sans-serif;
 
-        font-weight: bold;
+        font-weight: default;
 
         letter-spacing: normal;
 
@@ -157,7 +161,6 @@
         position: fixed;
         bottom: 5px;
         left: 5px;
-        width: 100%;
         text-align: left;
       }
 
@@ -201,50 +204,53 @@
       <select id="item" name="item"></select>
 
       <script type="text/javascript">
-        $(document).ready(function() {
+        $(document).ready(function () {
           // Initialize Select2 for the item select element
-          $('#item').select2({
+          $("#item").select2({
             ajax: {
-              url: 'https://raw.githubusercontent.com/nightmoon1996/nightmoon1996.github.io/main/items.json',
-              dataType: 'json',
+              url: "https://raw.githubusercontent.com/nightmoon1996/nightmoon1996.github.io/main/items.json",
+              dataType: "json",
               delay: 250,
-              processResults: function(data) {
+              processResults: function (data) {
                 // Filter the data based on the search term
-                var term = $.trim($('#item').data('select2').dropdown.$search.val());
-                if (term === '') {
+                var term = $.trim(
+                  $("#item").data("select2").dropdown.$search.val()
+                );
+                if (term === "") {
                   // No search term, show all data
                   return {
-                    results: data.map(function(item) {
+                    results: data.map(function (item) {
                       return {
                         id: item.id,
-                        text: item.name
+                        text: item.name,
                       };
-                    })
+                    }),
                   };
                 } else {
                   // Filter data based on the search term
-                  var filteredData = data.filter(function(item) {
-                    return item.name.toLowerCase().indexOf(term.toLowerCase()) > -1;
+                  var filteredData = data.filter(function (item) {
+                    return (
+                      item.name.toLowerCase().indexOf(term.toLowerCase()) > -1
+                    );
                   });
 
                   return {
-                    results: filteredData.map(function(item) {
+                    results: filteredData.map(function (item) {
                       return {
                         id: item.id,
-                        text: item.name
+                        text: item.name,
                       };
-                    })
+                    }),
                   };
                 }
               },
-              cache: true
+              cache: true,
             },
-            placeholder: '--Choose an Item--',
+            placeholder: "--Choose an Item--",
             minimumInputLength: 3,
-            maximumSelectionLength: 3
+            maximumSelectionLength: 3,
           });
         });
-      </script>     
       </script>
 
       <br />
@@ -348,9 +354,7 @@
     <div class="version">
       <h3>Version 0.1</h3>
       This website is not affiliated with Sandbox Interactive GmbH or Albion
-        Online.
-        The MIT License (MIT) Copyright (c) 2023 KanameS
-    </div>
+      Online. The MIT License (MIT) Copyright (c) 2023 KanameS
     </div>
   </body>
 </html>
