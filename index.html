@@ -3,35 +3,6 @@
   <head>
     <title>Albion Online Data</title>
     <style>
-      .dropdown {
-        position: relative;
-        display: inline-block;
-      }
-
-      .dropdown-content {
-        display: none;
-        position: absolute;
-        z-index: 1;
-      }
-
-      .dropdown:hover .dropdown-content {
-        display: block;
-      }
-
-      .dropdown-content a {
-        color: black;
-        padding: 12px 16px;
-        text-decoration: none;
-        display: block;
-      }
-
-      .dropdown-content a:hover {
-        background-color: #f1f1f1;
-      }
-
-      .selected {
-        background-color: yellow;
-      }
 
       /* New CSS */
       body {
@@ -230,39 +201,50 @@
       <select id="item" name="item"></select>
 
       <script type="text/javascript">
-        $.ajax({
-          url: "https://raw.githubusercontent.com/nightmoon1996/nightmoon1996.github.io/main/item.txt",
-          cache: true,
-          data:function(params){
-            term:params.term //this is the search term to hit the server with
-          },
-          delay: 100,
-          success: function (text) {
-            const items = text.split("\n").map((line) => {
-              const [id, name] = line.split(":", 2).map((part) => part.trim());
-              return { id: id, name: name };
-            });
-          
-          const select = $("#item");
-          
-          items.forEach((item) => {
-          const option = new Option(item.name, item.id);
-          select.append(option);
+        $(document).ready(function() {
+          // Initialize Select2 for the item select element
+          $('#item').select2({
+            ajax: {
+              url: 'https://raw.githubusercontent.com/nightmoon1996/nightmoon1996.github.io/main/items.json',
+              dataType: 'json',
+              delay: 250,
+              processResults: function(data) {
+                // Filter the data based on the search term
+                var term = $.trim($('#item').data('select2').dropdown.$search.val());
+                if (term === '') {
+                  // No search term, show all data
+                  return {
+                    results: data.map(function(item) {
+                      return {
+                        id: item.id,
+                        text: item.name
+                      };
+                    })
+                  };
+                } else {
+                  // Filter data based on the search term
+                  var filteredData = data.filter(function(item) {
+                    return item.name.toLowerCase().indexOf(term.toLowerCase()) > -1;
+                  });
+
+                  return {
+                    results: filteredData.map(function(item) {
+                      return {
+                        id: item.id,
+                        text: item.name
+                      };
+                    })
+                  };
+                }
+              },
+              cache: true
+            },
+            placeholder: '--Choose an Item--',
+            minimumInputLength: 3,
+            maximumSelectionLength: 3
           });
-          
-          select.select2({
-          placeholder: "--Choose an Item--",
-          allowClear: true,
-          minimumInputLength: 3,
-          maximumSelectionLength: 3,
-          data: items.map((item) => ({ text: item.name })),
-          });
-          },
-          error: function () {
-          alert("Error loading data.");
-          },
-         });         
-         
+        });
+      </script>     
       </script>
 
       <br />
