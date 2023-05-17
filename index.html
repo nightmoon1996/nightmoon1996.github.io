@@ -238,10 +238,10 @@
           },
           delay: 100,
           success: function (text) {
-          const items = text.split("\n").map((line) => {
-          const name = line.trim();
-          return { id: name, name };
-          });
+            const items = text.split("\n").map((line) => {
+              const [id, name] = line.split(":", 2).map((part) => part.trim());
+              return { id: id, name: name };
+            });
           
           const select = $("#item");
           
