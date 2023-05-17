@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Albion Online Data API Example</title>
+  </head>
+  <body>
+    <h1>Albion Online Data API Example</h1>
+    <div id="data"></div>
+
+    <script>
+      fetch('https://www.albion-online-data.com/api/v2/stats/Prices/T4_BAG,T5_BAG,T6_BAG')
+        .then(response => response.json())
+        .then(data => {
+          const container = document.getElementById('data');
+          container.innerHTML = JSON.stringify(data);
+        });
+    </script>
+  </body>
+</html>
