@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Albion Online Data API Example</title>
+    <title>Albion Online Data</title>
     <style>
       .dropdown {
         position: relative;
@@ -181,6 +181,37 @@
       .select2-container {
         width: 100% !important;
       }
+
+      a {
+        position: fixed;
+        bottom: 5px;
+        left: 5px;
+        width: 100%;
+        text-align: left;
+      }
+
+      img {
+        width: 200px;
+      }
+
+      .version {
+        margin: auto;
+        width: 50%;
+        padding: 10px;
+        text-align: center;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+      }
+
+      h1 {
+        text-align: center;
+      }
+
+      p {
+        text-align: center;
+      }
     </style>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -191,7 +222,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
   </head>
   <body>
-    <h1>Albion Online Market Data Made by RAISALA Guild</h1>
+    <h1>Albion Online Market</h1>
+    <p>by Kanames for RAISALA Guild</p>
 
     <form>
       <label for="item">Item:</label>
@@ -204,8 +236,8 @@
           .then((response) => response.text())
           .then((text) => {
             const items = text.split("\n").map((line) => {
-              const [id, name] = line.split(",");
-              return { id, name };
+              const name = line.trim();
+              return { id: name, name };
             });
 
             const select = $("#item");
@@ -220,7 +252,7 @@
               allowClear: true,
               minimumInputLength: 2,
               maximumSelectionLength: 5,
-              data: items.map((item) => ({ id: item.id, text: item.name })),
+              data: items.map((item) => ({ text: item.name })),
             });
           });
       </script>
@@ -233,6 +265,9 @@
         <option value="Caerleon">Caerleon</option>
         <option value="Bridgewatch">Bridgewatch</option>
         <option value="Martlock">Martlock</option>
+        <option value="Lymhurst">Lymhurst</option>
+        <option value="Thetford">Thetford</option>
+        <option value="Fort Sterling">Fort Sterling</option>
       </select>
 
       <br />
@@ -313,5 +348,19 @@
     </script>
 
     <p id="selected-location"></p>
+
+    <a href="https://discord.gg/eBhGTm4cTS">
+      <img
+        src="https://discord.com/api/guilds/1108292493100982282/widget.png?style=banner4"
+      />
+    </a>
+
+    <div class="version">
+      <h3>Version 0.1</h3>
+      This website is not affiliated with Sandbox Interactive GmbH or Albion
+        Online.
+        The MIT License (MIT) Copyright (c) 2023 KanameS</copyright>
+    </div>
+    </div>
   </body>
 </html>
