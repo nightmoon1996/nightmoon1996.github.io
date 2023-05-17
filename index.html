@@ -233,6 +233,10 @@
         $.ajax({
           url: "https://raw.githubusercontent.com/nightmoon1996/nightmoon1996.github.io/main/item.txt",
           cache: true,
+          data:function(params){
+            term:params.term //this is the search term to hit the server with
+          },
+          delay: 100,
           success: function (text) {
           const items = text.split("\n").map((line) => {
           const name = line.trim();
