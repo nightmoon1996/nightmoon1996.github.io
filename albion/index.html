@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Prompt"
+    />
+    <title>Albion Online Data</title>
+    <style>
+      /* New CSS */
+      body {
+        font-family: "Prompt", sans-serif;
+        background-color: #f2f2f2;
+      }
+
+      form {
+        font-family: "Prompt" sans-serif;
+        background-color: white;
+        border-radius: 5px;
+        padding: 50px;
+        width: 25%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 50px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      label {
+        display: block;
+        margin-bottom: 10px;
+        font-weight: bold;
+      }
+
+      select {
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+        border: none;
+        box-shadow: inset 0px -2px 5px rgba(0, 0, 0, 0.1);
+        background-image: linear-gradient(to bottom, #ffffff, #ffffff),
+          linear-gradient(to bottom, #ffffff, #ffffff);
+        background-position: calc(100% -20px) center, calc(100% -10px) center;
+        background-size: 10px auto, 10px auto;
+        background-repeat: no-repeat;
+      }
+      select:focus {
+        outline: none;
+      }
+      option {
+        font-weight: normal;
+      }
+
+      button[type="button"] {
+        background-color: #4caf50; /* Green */
+        border-radius: 5px;
+        color: white;
+        padding: 10px 20px;
+        border-style: none;
+
+        cursor: pointer;
+
+        transition-duration: 0.3s;
+
+        box-shadow: none;
+
+        font-size: 0.9em;
+
+        margin-top: 0.5em;
+
+        text-align: center;
+
+        text-transform: none;
+
+        text-shadow: none;
+
+        width: auto;
+
+        display: inline-block;
+
+        letter-spacing: normal;
+
+        word-spacing: normal;
+
+        line-height: normal;
+
+        text-indent: 0;
+
+        text-decoration: none;
+
+        vertical-align: center;
+
+        white-space: normal;
+      }
+
+      button[type="button"]:hover {
+        background-color: #3e8e41; /* Dark Green */
+
+        box-shadow: none;
+
+        color: white;
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 50%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 50px;
+
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+
+        background-color: white;
+
+        border-radius: 5px;
+
+        padding: 50px;
+
+        text-align: center;
+
+        font-size: 0.9em;
+
+        font-family: "Prompt", sans-serif;
+
+        font-weight: default;
+
+        letter-spacing: normal;
+
+        word-spacing: normal;
+
+        line-height: normal;
+
+        text-indent: 0;
+
+        text-decoration: none;
+
+        vertical-align: center;
+      }
+
+      th {
+        background-color: #4caf50;
+        color: white;
+        text-align: left;
+        padding: 8px;
+      }
+
+      td {
+        border-bottom: 1px solid #ddd;
+        padding: 16px;
+        text-align: left;
+      }
+
+      tr:hover {
+        background-color: #f5f5f5;
+      }
+
+      .select2-container {
+        width: 100% !important;
+      }
+
+      a {
+        position: fixed;
+        bottom: 5px;
+        left: 5px;
+        text-align: left;
+      }
+
+      img {
+        width: 200px;
+      }
+
+      .version {
+        margin: auto;
+        width: 50%;
+        padding: 10px;
+        text-align: center;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+      }
+
+      h1 {
+        text-align: center;
+        font-family: "Prompt", sans-serif;
+        font-weight: bold;
+        font-size: 2em;
+        margin-top: 2em;
+        color: #333;
+        text-shadow: 2px 2px #ccc;
+      }
+
+      p {
+        text-align: center;
+        font-family: "Prompt", sans-serif;
+        font-size: 1.2em;
+        margin-bottom: 2em;
+        color: #555;
+        text-shadow: 1px 1px #ccc;
+      }
+
+      /* Add some animation to the images */
+      img:hover {
+        transform: scale(1.1);
+        transition: transform 0.5s ease-in-out;
+      }
+    </style>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+  </head>
+  <body>
+    <h1>Albion Online Market</h1>
+    <p>by Kanames for RAISALA Guild</p>
+
+    <form>
+      <label for="item">Item:</label>
+      <select id="item" name="item"></select>
+
+      <script type="text/javascript">
+        $(document).ready(function () {
+          // Initialize Select2 for the item select element
+          $("#item").select2({
+            ajax: {
+              url: "https://raw.githubusercontent.com/nightmoon1996/nightmoon1996.github.io/main/items.json",
+              dataType: "json",
+              delay: 250,
+              processResults: function (data) {
+                // Filter the data based on the search term
+                var term = $.trim(
+                  $("#item").data("select2").dropdown.$search.val()
+                );
+                if (term === "") {
+                  // No search term, show all data
+                  return {
+                    results: data.map(function (item) {
+                      return {
+                        id: item.id,
+                        text: item.name,
+                      };
+                    }),
+                  };
+                } else {
+                  // Filter data based on the search term
+                  var filteredData = data.filter(function (item) {
+                    return (
+                      item.name.toLowerCase().indexOf(term.toLowerCase()) > -1
+                    );
+                  });
+
+                  return {
+                    results: filteredData.map(function (item) {
+                      return {
+                        id: item.id,
+                        text: item.name,
+                      };
+                    }),
+                  };
+                }
+              },
+              cache: true,
+            },
+            placeholder: "--Choose an Item--",
+            minimumInputLength: 3,
+            maximumSelectionLength: 3,
+          });
+        });
+      </script>
+
+      <br />
+
+      <label for="location">Location:</label>
+      <select id="location" name="location">
+        <option value="">--Please choose a location--</option>
+        <option value="Caerleon">Caerleon</option>
+        <option value="Bridgewatch">Bridgewatch</option>
+        <option value="Martlock">Martlock</option>
+        <option value="Lymhurst">Lymhurst</option>
+        <option value="Thetford">Thetford</option>
+        <option value="Fort Sterling">Fort Sterling</option>
+        <option value="5003">Brecilian</option>
+      </select>
+
+      <br />
+
+      <button type="button" onclick="validateForm()">Get Data</button>
+    </form>
+    <table id="myTable">
+      <tr>
+        <th>Item ID</th>
+        <th>City</th>
+        <th>Quality</th>
+        <th>Sell Price Min</th>
+        <th>Sell Price Min Date</th>
+        <th>Sell Price Max</th>
+        <th>Sell Price Max Date</th>
+        <th>Buy Price Min</th>
+        <th>Buy Price Min Date</th>
+        <th>Buy Price Max</th>
+        <th>Buy Price Max Date</th>
+      </tr>
+
+      <tr id="myRow">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+
+      <!-- Add more rows here if needed -->
+    </table>
+
+    <script>
+      function validateForm() {
+        var item = document.getElementById("item").value;
+        var location = document.getElementById("location").value;
+
+        if (item == "" || location == "") {
+          alert("Please select an item and a location.");
+          return false;
+        } else {
+          getData(item, location);
+        }
+      }
+
+      function getData(item, location) {
+        console.log(`Getting data for item ${item} at location ${location}`);
+
+        fetch(
+          `https://east.albion-online-data.com/api/v2/stats/Prices/${item}?locations=${location}`
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            // Get the table row element
+            const row = document.getElementById("myRow");
+
+            // Update the table data with the fetched data
+            row.cells[0].innerHTML = data[0].item_id;
+            row.cells[1].innerHTML = data[0].city;
+            row.cells[2].innerHTML = data[0].quality;
+            row.cells[3].innerHTML = data[0].sell_price_min;
+            row.cells[4].innerHTML = data[0].sell_price_min_date;
+            row.cells[5].innerHTML = data[0].sell_price_max;
+            row.cells[6].innerHTML = data[0].sell_price_max_date;
+            row.cells[7].innerHTML = data[0].buy_price_min;
+            row.cells[8].innerHTML = data[0].buy_price_min_date;
+            row.cells[9].innerHTML = data[0].buy_price_max;
+            row.cells[10].innerHTML = data[0].buy_price_max_date;
+          })
+          .catch((error) => console.error(error));
+      }
+    </script>
+
+    <a href="https://discord.gg/eBhGTm4cTS">
+      <img
+        src="https://discord.com/api/guilds/1108292493100982282/widget.png?style=banner4"
+      />
+    </a>
+
+    <div class="version">
+      <h3>Version 0.12</h3>
+      This website is not affiliated with Sandbox Interactive GmbH or Albion
+      Online. The MIT License (MIT) Copyright (c) 2023 KanameS
+    </div>
+  </body>
+</html>
