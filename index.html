@@ -424,7 +424,17 @@ What are you doing here?! you sneaky developer...
               </div>
               <div class="itcho.io">
                 <!-- <img src="src/webp/whatcolorbottle.webp" alt="whatcolorbottle image" /> -->
-                <iframe frameborder="0" src="https://itch.io/embed-upload/10903024?color=333333" allowfullscreen="" width="400" height="600"><a href="https://kanames.itch.io/dungeon-of-slime">Play Dungeon Of Slime on itch.io</a></iframe>
+                <div id="game-placeholder" style="width: 400px; height: 600px; background: url('src/png/clicktoplay.png') no-repeat center center; background-size: cover; cursor: pointer;">
+                  <button onclick="loadGame()" style="width: 100%; height: 100%; background: none; border: none; cursor: pointer;"></button>
+                </div>
+                
+                <!-- JavaScript to replace the placeholder with the iframe -->
+                <script>
+                function loadGame() {
+                  var gameIframe = '<iframe frameborder="0" src="https://itch.io/embed-upload/10903024?color=333333" allowfullscreen="" width="400" height="600"></iframe>';
+                  document.getElementById('game-placeholder').innerHTML = gameIframe;
+                }
+                </script>
               </div>
             </div>
           </div>
